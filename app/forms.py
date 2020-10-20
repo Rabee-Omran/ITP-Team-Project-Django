@@ -18,13 +18,27 @@ SESSION =(
 
 )
 
+
+SUBJECT_TYPE = (
+("نظري","نظري"),
+("عملي","عملي"),
+)
+
+POST_TYPE = (
+("محاضرة","محاضرة"),
+("تسجيل","تسجيل"),
+("تفريغ","تفريغ"),
+)
+
 class PostCreateForm(forms.ModelForm):
     content = forms.CharField(label='العنوان')
     url = forms.URLField(label='الرابط')
+    subject_type = forms.ChoiceField(label="نظري / عملي",choices = SUBJECT_TYPE )
+    post_type = forms.ChoiceField(label="النوع",choices = POST_TYPE )
     session_year__year_date = forms.ModelChoiceField(label=" العام الدراسي",required=True, widget=forms.Select, queryset=SessionYear.objects.all())
     class Meta:
         model = Post
-        fields = [ 'content','url','session_year__year_date']
+        fields = [ 'content','url','subject_type','post_type','session_year__year_date']
 
 
 
@@ -56,8 +70,11 @@ class PostCreateFormAdmin(forms.ModelForm):
     subject__year_num__year = forms.ChoiceField(label="السنة",choices = CHOISES )
     session = forms.ChoiceField(label="الفصل",choices = SESSION )
     subject__subject = forms.ModelChoiceField(label="  المادة", widget=forms.Select, queryset=Subject.objects.all())
+    subject_type = forms.ChoiceField(label="نظري / عملي",choices = SUBJECT_TYPE )
+    post_type = forms.ChoiceField(label="النوع",choices = POST_TYPE )
     session_year__year_date = forms.ModelChoiceField(label=" العام الدراسي",required=True, widget=forms.Select, queryset=SessionYear.objects.all())
+
     class Meta:
         model = Post
-        fields = ['subject__year_num__year','session','subject__subject', 'content','url','session_year__year_date']
+        fields = ['subject__year_num__year','session','subject__subject', 'content','url','subject_type','post_type','session_year__year_date']
 

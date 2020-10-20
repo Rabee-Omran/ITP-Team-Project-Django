@@ -9,6 +9,23 @@ SESSION = (
 ('1',"فصل أول"),
 ('2',"فصل ثاني"),
 )
+SESSION = (
+('1',"فصل أول"),
+('2',"فصل ثاني"),
+)
+
+
+SUBJECT_TYPE = (
+("نظري","نظري"),
+("عملي","عملي"),
+)
+
+POST_TYPE = (
+("محاضرة","محاضرة"),
+("تسجيل","تسجيل"),
+("تفريغ","تفريغ"),
+)
+
 
 class SessionYear(models.Model):
     year_date = models.CharField(max_length=50)
@@ -37,6 +54,8 @@ class Post(models.Model):
     subject = models.ForeignKey(Subject, related_name='subject_c', on_delete=models.CASCADE,)
     content = models.CharField(max_length=150)
     url = models.URLField()
+    subject_type = models.CharField(max_length=15, choices=SUBJECT_TYPE) 
+    post_type = models.CharField(max_length=15, choices=POST_TYPE) 
     updated_at = models.DateTimeField(auto_now=True)
     created_at = models.DateTimeField(auto_now_add=True)
     
@@ -50,7 +69,7 @@ class Post(models.Model):
     
     def get_absolute_url(self):
         #return '/detail/{}'.format(self.pk)
-        return reverse('subject_page', args=[self.pk])
+        return reverse('subject_page', args=[self.subject.pk])
 
 
 

@@ -36,10 +36,10 @@
   
 
    <h5><code  class="comment_body text-dark">
-   <a href="#" class="pr-2" style="font-size: 23px; text-decoration: none; color:black" >
+   <a href="#" class="pr-2" style="font-size: 20px; text-decoration: none; color:black" >
     {{p.content}}
    </code></h5>   
-
+   <p class=" text-secondary" style="font-size: 15px;">{{p.post_type}} - {{p.subject_type}}</p>
    <a href="{{p.url}} " style=" text-decoration: none;" class=''>رابط الملف</a>
 
      
@@ -49,6 +49,7 @@
          
           <!-- <img class="img-fluid rounded-circle border m-2" style="  width: 60px;  height: 60px;"  src="{{p.owner.profile.image.url}}" alt="صورة الناشر"></div> -->
      <div class="column mt-4 mr-4">
+         
           <span class=" text-secondary">{{p.owner.first_name}} {{p.owner.last_name}}</span>
          <div><span class="text-secondary " style="font-size: 12px;">نشر في</span>
         <span class="text-secondary" style="font-size: 12px;">{{p.created_at|date:'d/ m/ Y '}} </span>
