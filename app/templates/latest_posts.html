@@ -1,0 +1,23 @@
+
+
+<div class="col-md-3 mt-5 mx-auto ">
+    <div class=" card mb-3 mx-auto" >
+       
+          <h3 class=" text-center text-light p-2" style="background-color: #003153;">آخر المنشورات</h3> 
+          <ul class="list-group-flush latest-post">
+           {% for p in l_posts %}     
+           <li class="list-group-item latest-post-item " >
+           <a class="text-dark" style="text-decoration: none;"  href="{% url 'subject_page' p.subject.id %}">
+            {% if p.content|length > 15%}
+   {{p.content|slice:'15'}}.....
+   {% else %}
+   {{p.content}} -  {{p.subject.subject}}
+   {% endif %}             
+         </a></li>    
+           {% empty %}
+           <li class="list-group-item latest-comment-item">لا يوجد منشورات بعد</li>
+           {%endfor%}
+       
+       </ul>
+    </div>
+</div>

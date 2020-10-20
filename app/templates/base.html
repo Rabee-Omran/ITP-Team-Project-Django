@@ -1,0 +1,169 @@
+{%load static%}
+{%load post_tag%}
+{% load bootstrap4 %}
+
+
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/main.css' %}">
+    <link rel="shortcut icon" type="image/png" href="{% static 'images/logo.ico' %}"/>
+    {% if title %}
+    <title>ITP Team | {{title}}</title>
+    {% else %}
+    <title>ITP Team </title>
+    {% endif %}
+    <style>
+      .navbar-brand , .navbar-li{
+      transition:0.5s;
+      display: block;
+     
+     
+      }
+  
+
+  .navbar-brand:hover{
+  text-shadow:10px 10px 20px #fff,
+              -10px -10px 20px #fff;
+  
+  }
+
+         
+.rrr {
+  direction: rtl  !important;
+  text-align: right  !important;
+  color: black  !important;
+     
+  }
+  
+  
+  </style>
+
+</head>
+<body>
+<header>
+    <nav class=" navbar  navbar-expand-lg navbar-dark  fixed-top" style="background-color: #003153;" >
+ <a class="navbar-brand mr-2 "   style=" font-size:30px;" href="{% url 'home' %}">ITP Team
+     <img class="rounded mr-1" src="{% static 'images/logo.png' %}" width="45px" alt="Tgrebte" > 
+  
+    </a>
+   
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  
+
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav ">
+      <li class="nav-item active">
+        <a class="nav-link" href="{% url 'home' %}" style="font-size: 20px;">الرئيسية <span class="sr-only">(current)</span></a>
+      </li>
+
+      {% dropdown %}
+   
+
+
+  
+    </ul>
+    
+    
+     {% if user.is_authenticated %}
+     
+    
+                <ul class="navbar-nav mr-auto">
+                  <a class=" pt-3 nav-link active " href="{% url 'add_post' %}">منشور جديد</a>
+                <li>
+                
+                  <div class="dropdown nav-link active">
+                    <a href="#" class=" nav-link dropdown-toggle" data-toggle="dropdown">                                    
+                      {{request.user.first_name}}  {{request.user.last_name}}         
+                    </a>
+                    <div class="dropdown-menu rrr pr-3" >
+                      <a class="rrr nav-link " href="{% url 'profile' %}">الملف الشخصي</a>
+                      <a class="nav-link rrr"   href="{% url 'logout' %}">تسجيل خروج</a>
+                </div>
+
+                </li>
+               
+                  
+                </ul>
+                {% else %}
+                <ul class="navbar-nav mr-auto">
+                   
+                    <li class="nav-item"><a class="nav-link" href="{% url 'login' %}">خاص بالفريق</a></li>
+                </ul>
+                {% endif %}
+              
+       
+  </div>
+</nav>
+
+</header>
+
+
+<section>
+   <div class="container pt-3">
+        <div class="row mt-5 ">
+
+
+  {% block content %}
+
+
+
+  
+     {% endblock content %}
+    </div> 
+        {%block latest_posts %}
+      
+        {%endblock latest_posts %}
+        </div> 
+   </div>
+
+</section>
+
+<footer  style="background-color: #003153;">
+    <div class="container-fluid">
+         <div class="row">
+           <div class="col-md ">          
+              <div class="col mx-auto">
+         <div class="ol-md text-center pt-3">       
+          <small class="text-light " style="font-size: 18px;">#الهيئة_الإدارية_معكم_خطوة_بخطوة</small>
+        
+         </div>  
+         </div>   
+          
+         <div class="col mx-auto">
+          <div class="col-md text-center pt-1">       
+         <a class="text-light" href="https://www.facebook.com/ITP-Team-104204831294342" style="font-size: 23px;"><i class="fab fa-facebook text-light"></i></a>
+          <a class="text-light pr-2" href="https://t.me/ITP_Team1" style="font-size: 23px;">  <i class="fab fa-telegram"></i></a>
+
+        </div>     </div>    
+   
+    <div class="col mx-auto">
+         <div class="col-md text-center p-1">       
+              <small class="text-light">جميع الحقوق محفوظة &copy;</small>
+         </div>
+    </div>
+
+    </div>
+
+
+</footer>
+
+
+
+
+<script src="{% static 'js/jquery.min.js' %}"></script>
+<script src="{% static 'js/popper.min.js' %}"></script>
+<script src="{% static 'js/bootstrap.min.js' %}"></script>
+<script src="{% static 'js/fontawesome-all.min.js' %}"></script>
+
+
+{% block custom_js %}
+{% endblock custom_js %}
+</body>
+</html>

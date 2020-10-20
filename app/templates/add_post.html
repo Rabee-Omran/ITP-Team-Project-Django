@@ -1,0 +1,87 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+
+<div class="col-md-12 mt-5">
+    {% load bootstrap4 %}
+   
+   
+   
+   
+       <legend class="border-bottom pb-1 mb-3 "> إضافة </legend>
+       <div class="border p-4 mb-5 mt-4">
+        {% if messages %}
+        {% for message in messages %}
+        <div class="alert alert-{{message.tags}}">
+            {{message}}
+        </div>
+        {% endfor %}
+        {% endif %}
+           <form method="POST" enctype="multipart/form-data">
+           {% csrf_token %}
+          
+            {% bootstrap_form form %}
+           <input class="btn btn-info mt-4" style="background-color: #003153;" type="submit" value="إضافة">
+           </form>
+       </div>
+   
+   
+    <!-- /.content -->
+{% endblock content %}
+{% block custom_js %}
+
+<script>
+    console.log('ssssssssssssssss')
+    $(document).ready(function(){
+        $("#id_subject__year_num__year").change(function(){
+            fetchSubjects();
+            
+            
+        });
+        $("#id_session").change(function(){
+            fetchSubjects();
+           
+        });
+
+       
+
+        function fetchSubjects(){
+
+           
+            var year_num_id=$("#id_subject__year_num__year").val()
+            var session_id=$("#id_session").val()
+            
+            
+
+
+            $.ajax({
+                url:'{% url "get_subject" %}',
+                type:'POST',
+                data:{year_num_id:year_num_id,session_id:session_id},
+            })
+            .done(function(response){
+                var json_data=JSON.parse(response);
+                var div_data="";
+                div_data+=' <select name="subject__subject" class="form-control" title="" required="" id="id_subject__subject">';
+                for(key in json_data)
+                {
+                   
+ 
+
+                    div_data+='<option value="'+json_data[key]['id']+'"> '+json_data[key]['name']+'</option>';
+
+                }
+
+                $("#id_subject__subject").html(div_data);
+
+            })
+            .fail(function(){
+                alert("فشل في جلب الطلاب")
+            });
+        }
+
+    
+    })
+</script>
+{% endblock custom_js %}

@@ -1,0 +1,79 @@
+{% extends 'base.html'%}
+
+{%load static%}
+ {%block content%}
+ <div class="col-md-12 mt-5">
+{% load bootstrap4 %}
+<h1 class="p-4 border-bottom">{{title}}</h1>
+
+
+{% if user.is_authenticated %}
+                <legend class="border-bottom pb-1 mb-3 "> إضافة منشور  </legend>
+   
+                <div class="border p-4 mb-5 mt-4">
+                  <form method="POST" enctype="multipart/form-data">
+                  {% csrf_token %}
+                
+                 
+                    {% bootstrap_form form %}
+                  
+                 
+                  <input class="btn btn-info mt-4"  style="background-color: #003153;;" type="submit" value="نشر">
+                  </form>
+              </div>
+                {% endif %}
+{% for p in posts  %}
+
+    <div class="border p-4 m-4 rounded">
+     {%  if user.is_authenticated%}
+  
+    
+<div class="form-group pr-3 " >
+<a class="pr-4 back-btn" href="{% url 'post_update' p.id %}"> <i class="fa fa-edit text-dark"></i></a>
+     <a class="pr-5 back-btn" href="{% url 'post_delete' p.id %}"><i class="fa fa-trash text-danger"></i> </a>
+</div>  
+{% endif %}
+  
+
+   <h5><code  class="comment_body text-dark">
+   <a href="#" class="pr-2" style="font-size: 23px; text-decoration: none; color:black" >
+    {{p.content}}
+   </code></h5>   
+
+   <a href="{{p.url}} " style=" text-decoration: none;" class=''>رابط الملف</a>
+
+     
+
+
+      <div class="row">
+         
+          <!-- <img class="img-fluid rounded-circle border m-2" style="  width: 60px;  height: 60px;"  src="{{p.owner.profile.image.url}}" alt="صورة الناشر"></div> -->
+     <div class="column mt-4 mr-4">
+          <span class=" text-secondary">{{p.owner.first_name}} {{p.owner.last_name}}</span>
+         <div><span class="text-secondary " style="font-size: 12px;">نشر في</span>
+        <span class="text-secondary" style="font-size: 12px;">{{p.created_at|date:'d/ m/ Y '}} </span>
+      
+    
+    </div>
+    
+    </div></div>
+
+ </div>
+
+ 
+
+
+{%empty%}
+<h2 class="border-bottom  pb-5"> لم يقم أحد بالنشر بعد   :(</h2>
+
+{% endfor %}
+
+ 
+   
+
+
+{% include 'pagination.html' with page=posts %}
+
+     {%endblock%}
+
+     

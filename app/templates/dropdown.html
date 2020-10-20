@@ -1,0 +1,61 @@
+<li class="nav-item dropdown active">
+    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+      السنة الأولى
+    </a>
+    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+      {% for t1 in year_1 %}    
+      <a class="dropdown-item" href="{% url 'subject_page' t1.id %}"> {{t1.subject}}</a>
+    
+      {% endfor %}
+    </div>
+  </li>
+<li class="nav-item dropdown active">
+    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+      السنة الثانية
+    </a>
+    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+      {% for t2 in year_2 %}    
+      <a class="dropdown-item" href="{% url 'subject_page' t2.id %}"> {{t2.subject}}</a>
+    
+      {% endfor %}
+    </div>
+  </li>
+
+
+  <li class="nav-item dropdown active">
+    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+      السنة الثالثة
+    </a>
+    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+      {% for t3 in year_3 %}    
+      <a class="dropdown-item" href="{% url 'subject_page' t3.id %}"> {{t3.subject}}</a>
+      
+      {% endfor %}
+    </div>
+  </li>
+
+  <li class="nav-item dropdown active">
+    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+      السنة الرابعة
+    </a>
+    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+      {% for t4 in year_4 %}    
+    
+      <a class="dropdown-item" href="{% url 'subject_page' t4.id %}"> {{t4.subject}}</a>
+     
+      {% endfor %}
+    </div>
+  </li>
+
+
+  <li class="nav-item dropdown active">
+    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+      السنة الخامسة
+    </a>
+    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+      {% for t5 in year_5 %}    
+      <a class="dropdown-item" href="{% url 'subject_page' t5.id %}"> {{t5.subject}}</a>
+      <!-- <div class="dropdown-divider"></div> -->
+      {% endfor %}
+    </div>
+  </li>
