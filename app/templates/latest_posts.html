@@ -9,7 +9,7 @@
            <li class="list-group-item latest-post-item " >
            <a class="text-dark" style="text-decoration: none;"  href="{% url 'subject_page' p.subject.id %}">
             {% if p.content|length > 15%}
-   {{p.content|slice:'15'}}.....
+   {{p.content|slice:'15'}}.....  -  {{p.subject.subject}} 
    {% else %}
    {{p.content}} -  {{p.subject.subject}}
    {% endif %}             
