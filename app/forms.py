@@ -1,14 +1,22 @@
 from django import forms
 from .models import Post
 from django.contrib.auth.models import User
-from app.models import SessionYear, Subject
+from app.models import Advertising, SessionYear, Subject
 
 CHOISES=(
-    (1,'الأولى'),
-(2,"الثانية"),
-(3,"الثالثة"),
-(4,"الرابعة"),
-(5,"الخامسة"),
+    (1,"الأولى"),
+    (2,"الثانية"),
+    (3,"الثالثة"),
+    (4,"الرابعة"),
+    (5,"الخامسة"),
+)
+CHOISES2=(
+    ('', '----'),
+    (1,"الأولى"),
+    (2,"الثانية"),
+    (3,"الثالثة"),
+    (4,"الرابعة"),
+    (5,"الخامسة"),
 )
 
 
@@ -77,4 +85,15 @@ class PostCreateFormAdmin(forms.ModelForm):
     class Meta:
         model = Post
         fields = ['subject__year_num__year','session','subject__subject', 'content','url','subject_type','post_type','session_year__year_date']
+
+
+
+
+class AdvertisingCreateForm(forms.ModelForm):
+    year = forms.ChoiceField(label="السنة",choices = CHOISES2 , required = False ,help_text= "تجاوز هذا الحقل إذا كان الإعلان عام")
+    content = forms.CharField(label='الإعلان',widget= forms.Textarea)
+    
+    class Meta:
+        model = Advertising
+        fields = ['year', 'content']
 

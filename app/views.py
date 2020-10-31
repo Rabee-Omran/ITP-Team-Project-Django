@@ -1,17 +1,21 @@
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
-from app.models import Post, SessionYear, Subject
+from app.models import Advertising, Post, SessionYear, Subject, YearNum
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.shortcuts import get_object_or_404, redirect
-from django.views.generic import CreateView, UpdateView, DeleteView
+from django.views.generic import CreateView, UpdateView, DeleteView, ListView
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from .forms import PostCreateForm, UserUpdateForm
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
-from app.forms import PostCreateFormAdmin
+from app.forms import AdvertisingCreateForm, PostCreateFormAdmin
 from django.views.decorators.csrf import csrf_exempt
 import json
 from django.contrib.auth.decorators import login_required
+from django.db.models import Q
+from _functools import reduce
+import operator
+from django.urls import reverse
 # Create your views here.
 
 SESSION_YEAR_ID = 1
@@ -263,3 +267,109 @@ def profile_update(request):
 
     return render(request, "profile_update.html", context)
 
+class SearchResultsView(ListView):
+    model = Post
+    template_name = 'search.html'
+
+    def get_context_data(self, **kwargs):
+        querys = self.request.GET.get('q')
+         #more than one context  [sea list.html]
+        context = super().get_context_data(**kwargs)
+        context['title'] =  'بحث'
+        context['title2'] = querys    
+        return context
+
+    def get_queryset(self): # new
+        querys = self.request.GET.get('q').split()
+        qset1 =  reduce(operator.__or__, [Q(content__icontains=query) |
+         Q(post_type__icontains=query)
+              | Q(subject_type__icontains=query) 
+               | Q(subject__subject__icontains=query) 
+              
+              for query in querys])   
+        object_list = Post.objects.filter(
+             qset1         
+        ).distinct()
+        return object_list
+
+
+
+def advertisings_page(request):
+   
+    advertisings = Advertising.objects.all()
+
+    if request.method == 'POST':
+        advertising_form = AdvertisingCreateForm(data=request.POST)     
+        if advertising_form.is_valid():    
+            advertising_form.save() 
+            advertising_form.is_valid = False
+            advertising_form = AdvertisingCreateForm()
+
+    else:
+       
+        advertising_form = AdvertisingCreateForm()
+
+    
+    
+    paginator = Paginator(advertisings, 25)
+    page = request.GET.get('page')
+
+
+    try:
+        advertisings = paginator.page(page)
+    except PageNotAnInteger:
+        advertisings = paginator.page(1)
+    except EmptyPage:
+        advertisings = paginator.page(paginator.num_pages)
+  
+    
+    return render(request,'advertising.html', {'title':"إعلانات",'advertisings':advertisings,'page': page,'form':advertising_form})
+
+
+
+
+@login_required(login_url='login')
+def delete_advertising(request , pk):
+
+   try: 
+    advertising_obj = Advertising.objects.get(pk = pk)
+    print(advertising_obj)
+    advertising_obj.delete()
+    messages.success(request, "تم حذف الإعلان بنجاح")
+
+
+   except:
+       messages.error(request, "فشل الحذف")
+
+
+   return HttpResponseRedirect(reverse("advertising"))
+
+
+
+       
+
+class AdvertisingUpdateView(UserPassesTestMixin, LoginRequiredMixin, UpdateView):   
+    model = Advertising
+   
+    template_name = 'post_update.html'
+    form_class = AdvertisingCreateForm
+    login_url = 'login' 
+    def get_context_data(self, **kwargs):  #more than one context  [sea list.html]
+        context = super().get_context_data(**kwargs)
+        context['title'] =  'تحرير'
+       
+        return context
+    
+
+    def form_valid(self, form):
+        form.instance.owner = self.request.user
+        
+        
+        return super().form_valid(form)
+
+    def test_func(self):
+        post = self.get_object()
+        if self.request.user == self.request.user:
+            return True
+        else:
+            return False

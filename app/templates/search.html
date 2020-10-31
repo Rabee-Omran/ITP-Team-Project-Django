@@ -1,0 +1,64 @@
+
+
+{% extends 'base.html'%}
+
+{%load static%}
+ {%block content%}
+ <div class="col-md-12 mt-5">
+{% load bootstrap4 %}
+<h2 class="p-1">بحث عن " {{title2}} "  , عدد النتائج " {{object_list.count}} "  </h2>
+<h2 class="p-1 border-bottom">   </h2>
+
+{% for p in object_list  %}
+
+    <div class="border p-4 m-4 rounded">
+     {%  if user.is_authenticated%}
+   
+<div class="form-group pr-3 " >
+<a class="pr-4 back-btn" href="{% url 'post_update' p.id %}"> <i class="fa fa-edit text-dark"></i></a>
+     <a class="pr-5 back-btn" href="{% url 'post_delete' p.id %}"><i class="fa fa-trash text-danger"></i> </a>
+</div>  
+{% endif %}
+
+   
+  
+     
+   <h5><code  class="comment_body text-dark">
+   <a href="#" class="pr-2" style="font-size: 20px; text-decoration: none; color:black" >
+     <p class="text-danger">{{p.subject}}</p><br>{{p.content}}
+   </code></h5>   
+   <p class=" text-secondary" style="font-size: 15px;">{{p.post_type}} - {{p.subject_type}}</p>
+   <a href="{{p.url}} " style=" text-decoration: none;" class=''>رابط الملف</a>
+
+     
+
+
+      <div class="row">
+         
+          <!-- <img class="img-fluid rounded-circle border m-2" style="  width: 60px;  height: 60px;"  src="{{p.owner.profile.image.url}}" alt="صورة الناشر"></div> -->
+     <div class="column mt-4 mr-4">
+         
+          <span class=" text-secondary">{{p.owner.first_name}} {{p.owner.last_name}}</span>
+         <div><span class="text-secondary " style="font-size: 12px;">نشر في</span>
+        <span class="text-secondary" style="font-size: 12px;">{{p.created_at|date:'d/ m/ Y '}} </span>
+      
+    
+    </div>
+    
+    </div></div>
+
+ </div>
+
+ 
+
+
+{%empty%}
+<h2 class="border-bottom  p-5 text-center">لم يتم العثور على نتائج ):</h2>
+
+{% endfor %}
+
+ 
+
+     {%endblock%}
+
+     

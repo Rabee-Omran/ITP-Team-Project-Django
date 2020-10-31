@@ -9,10 +9,6 @@ SESSION = (
 ('1',"فصل أول"),
 ('2',"فصل ثاني"),
 )
-SESSION = (
-('1',"فصل أول"),
-('2',"فصل ثاني"),
-)
 
 
 SUBJECT_TYPE = (
@@ -25,6 +21,15 @@ POST_TYPE = (
 ("تسجيل","تسجيل"),
 ("تفريغ","تفريغ"),
 )
+
+CHOISES=(
+    ('1',"الأولى"),
+    ('2',"الثانية"),
+    ('3',"الثالثة"),
+    ('4',"الرابعة"),
+    ('5',"الخامسة"),
+)
+
 
 
 class SessionYear(models.Model):
@@ -80,6 +85,26 @@ class Profile(models.Model):
         return '{} profile'.format(self.user.username)
 
 
+class Advertising(models.Model):
+    
+    year = models.CharField(max_length=20, choices=CHOISES ,blank=True, null=True) 
+    content = models.TextField()
+    updated_at = models.DateTimeField(auto_now=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+
+    def get_absolute_url(self):
+        #return '/detail/{}'.format(self.pk)
+        return reverse('advertising')
+    
+   
+
+   
+    def __str__(self):
+        return str(self.year)
+    class Meta:
+        ordering = ('-created_at',)
+ 
 
 
 def create_profile(sender, **kwarg):

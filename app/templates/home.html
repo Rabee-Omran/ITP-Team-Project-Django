@@ -11,9 +11,21 @@
 <div class="col-md-9 mt-5 mb-5 ">
    <div class="row ">
 
-
-   
-
+    <!--  Search -->
+    <div class="col-9 p-2 mx-auto ">
+      <form class="" action="{% url 'search' %}" method="GET">
+        <div class="form-group">
+      <div class="input-group md-form form-sm form-1 pl-0">
+        <div class="input-group-prepend">
+          <button class="input-group-text purple lighten-3" id="basic-text1" style="background-color: #003153"><i class="fas fa-search text-white"
+              aria-hidden="true"></i></button>
+        </div>
+        <input class="form-control my-0 py-1"  name="q" type="text" placeholder="ابحث عن محاضرة , تسجيل , تفريغ" aria-label="Search">
+      </div>
+    </div>
+    </form>
+  </div >
+<!-- End Search -->
            
    <div class="col-auto p-2 mx-auto ">
     <div class="card card1  text-white shadow-lg border-dark  mx-auto " style="width: 18rem;background-color: #003153">

@@ -1,6 +1,7 @@
 
 from django.urls import path
 from app import views
+from app.views import SearchResultsView
 
 urlpatterns = [
     path('',views.home ,name = 'home'),
@@ -13,6 +14,10 @@ urlpatterns = [
     path('get_subject', views.get_subject, name="get_subject"),
     path('profile/', views.profile, name="profile"),
     path('profile_update/', views.profile_update, name="profile_update"),
+    path('search/',  SearchResultsView.as_view(),name = "search"),
+    path('advertising/',  views.advertisings_page,name = "advertising"),
+    path('advertising/<int:pk>/update/', views.AdvertisingUpdateView.as_view(), name="advertising_update"),
+    path('advertising/<int:pk>/delete/', views.delete_advertising, name="advertising_delete"),
 
 
 
