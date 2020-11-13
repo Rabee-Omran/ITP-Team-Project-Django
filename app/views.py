@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
-from app.models import Advertising, Post, SessionYear, Subject, YearNum
+from app.models import Advertising, Post, Subject, YearNum
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.shortcuts import get_object_or_404, redirect
 from django.views.generic import CreateView, UpdateView, DeleteView, ListView
@@ -18,8 +18,7 @@ import operator
 from django.urls import reverse
 # Create your views here.
 
-SESSION_YEAR_ID = 1
-SESSION_YEAR = SessionYear.objects.get(id=SESSION_YEAR_ID)
+
 SESSION_NUM1 = 1
 def home(request):
     year_1 = Subject.objects.filter(year_num__year=1,session=SESSION_NUM1)
@@ -36,17 +35,14 @@ def home(request):
 
 def subject_page(request, id):
     sub = get_object_or_404( Subject,id = id)
-    posts = Post.objects.filter( subject = sub, session_year =SESSION_YEAR)
+    posts = Post.objects.filter( subject = sub)
 
     if request.method == 'POST':
         post_form = PostCreateForm(data=request.POST)     
         if post_form.is_valid():    
-            session_year_id = post_form.cleaned_data["session_year__year_date"]   
-            session_year=SessionYear.objects.get(id=session_year_id.id)  
             new_post = post_form.save(commit=False)        
             new_post.owner = request.user
             new_post.subject = sub 
-            new_post.session_year = session_year 
             new_post.save()      
             post_form.is_valid = False
             post_form = PostCreateForm()
@@ -125,7 +121,7 @@ class PostDeleteView(UserPassesTestMixin, LoginRequiredMixin, DeleteView):
         success_url = self.get_success_url()
         post = self.get_object()
         print(post.id)
-        post_obj = Post.objects.get( id = post.id, session_year =SESSION_YEAR) 
+        post_obj = Post.objects.get( id = post.id) 
         self.object.delete()
         return HttpResponseRedirect(success_url+str(post.subject.id))
      
@@ -169,13 +165,10 @@ def add_post(request):
         if post_form.is_valid():  
             content = name = post_form.cleaned_data.get('content')
             new_post = post_form.save(commit=False)
-            year_id = post_form.cleaned_data.get('session_year__year_date')
-            year_obj = SessionYear.objects.get(id=year_id.id)
 
             subject_id = post_form.cleaned_data.get('subject__subject')
             subject_obj = Subject.objects.get(id=subject_id.id)
 
-            new_post.session_year = year_obj
             new_post.subject = subject_obj
             # new_post.subject.session = session_id
             
@@ -222,11 +215,11 @@ def get_subject(request):
 
 @login_required(login_url='login')
 def profile(request):
-    posts = Post.objects.filter(owner=request.user, session_year =SESSION_YEAR)
-    post_list = Post.objects.filter(owner=request.user, session_year =SESSION_YEAR)
+    posts = Post.objects.filter(owner=request.user)
+    post_list = Post.objects.filter(owner=request.user)
     paginator = Paginator(post_list, 10)
     page = request.GET.get('page')
-    num =  Post.objects.filter(owner=request.user,  session_year =SESSION_YEAR).count()
+    num =  Post.objects.filter(owner=request.user).count()
     try:
         post_list = paginator.page(page)
     except PageNotAnInteger:

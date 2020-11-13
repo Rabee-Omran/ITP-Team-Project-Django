@@ -1,9 +1,8 @@
 from django import template
 
-from app.models import Post, SessionYear, Subject
+from app.models import Post, Subject
 
-SESSION_YEAR_ID = 1
-SESSION_YEAR = SessionYear.objects.get(id=SESSION_YEAR_ID)
+
 SESSION_NUM1 = 1
 
 
@@ -11,7 +10,7 @@ register = template.Library()
 @register.inclusion_tag('latest_posts.html')
 def latest_posts():
          context = {
-        'l_posts': Post.objects.filter( session_year =SESSION_YEAR , subject__session=SESSION_NUM1)[0:5]
+        'l_posts': Post.objects.filter( subject__session=SESSION_NUM1)[0:5]
           }
          return context
 

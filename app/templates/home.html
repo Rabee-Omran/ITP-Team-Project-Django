@@ -102,11 +102,43 @@
                     {{t5.subject}} <small >({{t5.subject_c.count}})</small> </a></li>  
                 {% endfor %}
               </ul>
-          </div> </div> 
+          </div> </div>  </div> 
             
 
       
+---
 
+
+<div class="col-auto p-2 mx-auto " >
+  <div class="card card1  text-white shadow-lg border-dark  mx-auto " style="width: 18rem;background-color: #003153">
+      <div class="card-header  text-center"style="font-size: 29px;">
+        السنة الخامسة
+      </div>
+      <div class="card-body"style="font-size: 18px;">
+
+        <h5 class=" text-center"  id="btn1">الفصل الأول</h5>
+     
+      <ul id="season1" class="card-title text-center">
+          {% for t5 in year_1 %}
+        <li class="text-white"><a style=" text-decoration: none;" class="text-white" href="{% url 'subject_page' t5.id %}">  
+            {{t5.subject}} <small >({{t5.subject_c.count}})</small> </a></li>  
+        {% endfor %}
+      </ul>
+      <hr>
+      <h5 class=" text-center"  id="btn2">الفصل الثاني</h5>
+     
+      <ul id="season2" class="card-title text-center">
+          {% for t5 in year_1 %}
+        <li class="text-white"><a style=" text-decoration: none;" class="text-white" href="{% url 'subject_page' t5.id %}">  
+            {{t5.subject}} <small >({{t5.subject_c.count}})</small> </a></li>  
+        {% endfor %}
+      </ul>
+  </div> </div> 
+    
+
+
+
+---
       
    
 
@@ -116,6 +148,27 @@
 
 {% endblock content %}
 
+
+{% block custom_js %}
+<script>
+  $('#season1').hide();
+  $('#season2').hide();
+
+    $(document).ready(function(){
+
+
+      $("#btn1").click(function(){
+       $('#season1').toggle('1000');
+      });
+
+      $("#btn2").click(function(){
+       $('#season2').toggle('1000');
+      });
+
+    
+    })
+</script>
+{% endblock custom_js %}
 
 
 {%block latest_posts %}

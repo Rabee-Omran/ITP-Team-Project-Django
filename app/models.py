@@ -30,14 +30,6 @@ CHOISES=(
     ('5',"الخامسة"),
 )
 
-
-
-class SessionYear(models.Model):
-    year_date = models.CharField(max_length=50)
-
-    def __str__(self):
-        return self.year_date
-
 class YearNum(models.Model):
     year = models.IntegerField()
 
@@ -55,7 +47,6 @@ class Subject(models.Model):
 
 class Post(models.Model):
     owner = models.ForeignKey(User, related_name='post_owner', on_delete=models.CASCADE,)
-    session_year = models.ForeignKey(SessionYear, related_name='session_year', on_delete=models.CASCADE,)
     subject = models.ForeignKey(Subject, related_name='subject_c', on_delete=models.CASCADE,)
     content = models.CharField(max_length=150)
     url = models.URLField()

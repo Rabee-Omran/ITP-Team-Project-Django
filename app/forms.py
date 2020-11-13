@@ -1,7 +1,7 @@
 from django import forms
 from .models import Post
 from django.contrib.auth.models import User
-from app.models import Advertising, SessionYear, Subject
+from app.models import Advertising, Subject
 
 CHOISES=(
     (1,"الأولى"),
@@ -43,10 +43,10 @@ class PostCreateForm(forms.ModelForm):
     url = forms.URLField(label='الرابط')
     subject_type = forms.ChoiceField(label="نظري / عملي",choices = SUBJECT_TYPE )
     post_type = forms.ChoiceField(label="النوع",choices = POST_TYPE )
-    session_year__year_date = forms.ModelChoiceField(label=" العام الدراسي",required=True, widget=forms.Select, queryset=SessionYear.objects.all())
+    
     class Meta:
         model = Post
-        fields = [ 'content','url','subject_type','post_type','session_year__year_date']
+        fields = [ 'content','url','subject_type','post_type']
 
 
 
@@ -80,11 +80,10 @@ class PostCreateFormAdmin(forms.ModelForm):
     subject__subject = forms.ModelChoiceField(label="  المادة", widget=forms.Select, queryset=Subject.objects.all())
     subject_type = forms.ChoiceField(label="نظري / عملي",choices = SUBJECT_TYPE )
     post_type = forms.ChoiceField(label="النوع",choices = POST_TYPE )
-    session_year__year_date = forms.ModelChoiceField(label=" العام الدراسي",required=True, widget=forms.Select, queryset=SessionYear.objects.all())
 
     class Meta:
         model = Post
-        fields = ['subject__year_num__year','session','subject__subject', 'content','url','subject_type','post_type','session_year__year_date']
+        fields = ['subject__year_num__year','session','subject__subject', 'content','url','subject_type','post_type']
 
 
 
